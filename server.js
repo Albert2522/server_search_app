@@ -8,7 +8,7 @@ client = new craigs.Client({
   });
 
 app.get('/craigslist', (request, response) => {
-  console.log("HERE");
+  response.send({HERE: "here"});
 });
 
 app.listen(port, (err) => {
