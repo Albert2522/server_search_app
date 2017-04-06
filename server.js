@@ -7,7 +7,7 @@ client = new craigs.Client({
     city : 'sfbay'
   });
 
-app.get('/', (request, response) => {
+app.get('/craigslist', (request, response) => {
   client.list().then(listings => response.send(listings));
 });
 
