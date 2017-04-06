@@ -7,8 +7,8 @@ client = new craigs.Client({
     city : 'sfbay'
   });
 
-app.get('/', (request, response) => {
-  client.list().then(listings => response.send(listings));
+app.get('/craigslist', (request, response) => {
+  console.log("HERE");
 });
 
 app.listen(port, (err) => {
