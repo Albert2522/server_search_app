@@ -57,7 +57,7 @@ app.get('/ebay', (request, response) => {
         outputSelector: ['AspectHistogram'],
 
         paginationInput: {
-          entriesPerPage: 5
+          entriesPerPage: 120
         }
       };
 
