@@ -6,6 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "amazon-product-api": "^0.4.3",
     "aws-sdk": "^2.39.0",
     "ebay-api": "^1.13.1",
     "ejs": "~1.0.0",

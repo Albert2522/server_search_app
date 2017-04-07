@@ -5,6 +5,16 @@ const craigs = require('node-craigslist');
 const imgrab = require('imagegrab');
 const ebay = require('ebay-api');
 const AWS = require('aws-sdk');
+const amazon = require('amazon-product-api');
+const util = require('util');
+
+
+const amazon_client = amazon.createClient({
+  awsId: process.env.AWS_ACCESS_KEY,
+  awsSecret:  process.env.AWS_SECRET_KEY,
+  awsTag: process.env.AWS_ASSOCIATE_TAG
+});
+
 
 
 const sendResponseCraigs = (response, listings) => {
@@ -71,8 +81,6 @@ app.get('/ebay', (request, response) => {
         // gets all the items together in a merged array
         function itemsCallback(error, itemsResponse) {
           if (error) throw error;
-
-          console.log(itemsResponse);
           var items = itemsResponse.searchResult.item;
           let final_response = [ ];
           items.map( item => {
@@ -94,7 +102,30 @@ app.get('/ebay', (request, response) => {
 });
 
 app.get('/amazon', (request, response) => {
-  console.log("here");
+  let search = request.query.search || '';
+  let final_response = [ ];
+  amazon_client.itemSearch({
+    keywords: search,
+    responseGroup: 'ItemAttributes, Images, Small, ItemIds'
+  }).then(function(results){
+    results.map( item => {
+      let tmp = {};
+      tmp.category = item.ItemAttributes[0].ProductTypeName[0];
+      tmp.date = '';
+      tmp.hasPick = item.LargeImage[0].URL[0] ? true : false;
+      tmp.pid = item.ASIN[0];
+      tmp.location = '';
+      tmp.price = item.ItemAttributes[0].ListPrice[0].FormattedPrice[0];
+      tmp.title = item.ItemAttributes[0].ProductGroup[0] + ': ' + item.ItemAttributes[0].Title[0];
+      tmp.url = item.DetailPageURL[0];
+      tmp.image_url = item.LargeImage[0].URL[0];
+      final_response.push(tmp);
+    });
+    response.send(final_response);
+  }).catch(function(err){
+    console.log('problem');
+    // console.log(util.inspect(err, false, null));
+  });
 });
 
 app.listen(port, (err) => {
