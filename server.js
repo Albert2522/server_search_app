@@ -4,6 +4,7 @@ const port = process.env.PORT || 3000;
 const craigs = require('node-craigslist');
 const imgrab = require('imagegrab');
 const ebay = require('ebay-api');
+const AWS = require('aws-sdk');
 
 
 const sendResponseCraigs = (response, listings) => {
@@ -48,48 +49,52 @@ app.get('/craigslist', (request, response) => {
 });
 
 app.get('/ebay', (request, response) => {
-  let keys  = request.query.search? request.query.search.split(" ") : "car";
-  var params = {
-    keywords: keys,
+      let keys  = request.query.search? request.query.search.split(" ") : "car";
+      var params = {
+        keywords: keys,
 
-    // add additional fields
-    outputSelector: ['AspectHistogram'],
+        // add additional fields
+        outputSelector: ['AspectHistogram'],
 
-    paginationInput: {
-      entriesPerPage: 120
-    }
-  };
+        paginationInput: {
+          entriesPerPage: 5
+        }
+      };
 
-  ebay.xmlRequest({
-      serviceName: 'Finding',
-      opType: 'findItemsByKeywords',
-      appId: 'AlbertAb-simplese-PRD-e090738eb-8c1e10ef',      // FILL IN YOUR OWN APP KEY, GET ONE HERE: https://publisher.ebaypartnernetwork.com/PublisherToolsAPI
-      params: params,
-      parser: ebay.parseResponseJson    // (default)
-    },
-    // gets all the items together in a merged array
-    function itemsCallback(error, itemsResponse) {
-      if (error) throw error;
+      ebay.xmlRequest({
+          serviceName: 'Finding',
+          opType: 'findItemsByKeywords',
+          appId: 'AlbertAb-simplese-PRD-e090738eb-8c1e10ef',      // FILL IN YOUR OWN APP KEY, GET ONE HERE: https://publisher.ebaypartnernetwork.com/PublisherToolsAPI
+          params: params,
+          parser: ebay.parseResponseJson    // (default)
+        },
+        // gets all the items together in a merged array
+        function itemsCallback(error, itemsResponse) {
+          if (error) throw error;
 
-      console.log(itemsResponse);
-      var items = itemsResponse.searchResult.item;
-      let final_response = [ ];
-      items.map( item => {
-        let tmp = {};
-        tmp.category = item.primaryCategory.categoryName;
-        tmp.date = item.listingInfo.endTime;
-        tmp.hasPick = item.galleryURL ? true : false;
-        tmp.pid = item.itemId;
-        tmp.location = item.location;
-        tmp.price = item.sellingStatus.currentPrice.amount;
-        tmp.title = item.title;
-        tmp.url = item.viewItemURL;
-        tmp.image_url = item.galleryURL;
-        final_response.push(tmp);
-      });
-      response.send(final_response);
-    }
-  );
+          console.log(itemsResponse);
+          var items = itemsResponse.searchResult.item;
+          let final_response = [ ];
+          items.map( item => {
+            let tmp = {};
+            tmp.category = item.primaryCategory.categoryName;
+            tmp.date = item.listingInfo.endTime;
+            tmp.hasPick = item.galleryURL ? true : false;
+            tmp.pid = item.itemId;
+            tmp.location = item.location;
+            tmp.price = item.sellingStatus.currentPrice.amount;
+            tmp.title = item.title;
+            tmp.url = item.viewItemURL;
+            tmp.image_url = item.galleryURL;
+            final_response.push(tmp);
+          });
+          response.send(final_response);
+        }
+      );
+});
+
+app.get('/amazon', (request, response) => {
+  console.log("here");
 });
 
 app.listen(port, (err) => {
