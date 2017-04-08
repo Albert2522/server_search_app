@@ -15,7 +15,7 @@ const amazon_client = amazon.createClient({
   awsTag: process.env.AWS_ASSOCIATE_TAG
 });
 
-console.log(process.env.AWS_ACCESS_KEY);
+
 
 const sendResponseCraigs = (response, listings) => {
   let final_response = [ ];
@@ -102,6 +102,8 @@ app.get('/ebay', (request, response) => {
 });
 
 app.get('/amazon', (request, response) => {
+  console.log('HERE');
+  console.log(process.env.AWS_ACCESS_KEY);
   let search = request.query.search || '';
   let final_response = [ ];
   amazon_client.itemSearch({
