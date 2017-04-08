@@ -15,7 +15,7 @@ const amazon_client = amazon.createClient({
   awsTag: process.env.AWS_ASSOCIATE_TAG
 });
 
-
+console.log(process.env.AWS_ACCESS_KEY);
 
 const sendResponseCraigs = (response, listings) => {
   let final_response = [ ];
