@@ -103,7 +103,7 @@ app.get('/ebay', (request, response) => {
 
 app.get('/amazon', (request, response) => {
   let search = request.query.search;
-  if (typeof search == undefined) { search = 'mustang'; }
+  if (typeof search === 'undefined') { search = 'mustang'; }
   console.log(search);
   let final_response = [ ];
   amazon_client.itemSearch({
@@ -117,7 +117,8 @@ app.get('/amazon', (request, response) => {
       tmp.hasPick = item.LargeImage[0].URL[0] ? true : false;
       tmp.pid = item.ASIN[0];
       tmp.location = '';
-      tmp.price = item.ItemAttributes[0].ListPrice[0].FormattedPrice[0];
+      if (typeof item.ItemAttributes[0].ListPrice === 'undefined') { tmp.price = item.ItemAttributes[0].ListPrice; }
+      else { tmp.price = item.ItemAttributes[0].ListPrice[0].FormattedPrice[0];}
       tmp.title = item.ItemAttributes[0].ProductGroup[0] + ': ' + item.ItemAttributes[0].Title[0];
       tmp.url = item.DetailPageURL[0];
       tmp.image_url = item.LargeImage[0].URL[0];
