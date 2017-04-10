@@ -103,8 +103,8 @@ app.get('/ebay', (request, response) => {
 
 app.get('/amazon', (request, response) => {
   let search = request.query.search;
-  if (typeof search === undefined) { search = 'mustang'; }
-  console.log(request. query.search);
+  if (typeof request.query.search == undefined) { search = 'mustang'; }
+  console.log(search);
   let final_response = [ ];
   amazon_client.itemSearch({
     keywords: search,
