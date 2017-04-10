@@ -103,9 +103,7 @@ app.get('/ebay', (request, response) => {
 
 app.get('/amazon', (request, response) => {
   console.log('HERE');
-  console.log(process.env.AWS_ACCESS_KEY);
-  console.log(process.env.AWS_SECRET_KEY);
-  console.log(process.env.AWS_ASSOCIATE_TAG);
+  console.log(request.query.search);
   let search = request.query.search || '';
   let final_response = [ ];
   amazon_client.itemSearch({
