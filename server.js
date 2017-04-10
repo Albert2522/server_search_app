@@ -104,7 +104,7 @@ app.get('/ebay', (request, response) => {
 app.get('/amazon', (request, response) => {
   console.log(request.query.search);
   let search = request.query.search;
-  if (!search) { search = ''; }
+  if (search === undefined) { search = ''; }
   let final_response = [ ];
   amazon_client.itemSearch({
     keywords: search,
