@@ -90,12 +90,17 @@ app.get('/ebay', (request, response) => {
             tmp.hasPick = item.galleryURL ? true : false;
             tmp.pid = item.itemId;
             tmp.location = item.location;
-            tmp.price = item.sellingStatus.currentPrice.amount;
+            tmp.price = '$' + item.sellingStatus.currentPrice.amount;
+            console.log(typeof tmp.price);
+            if (tmp.price.slice(-3) == '.00') {
+              tmp.price = tmp.price.slice(0, -3);
+            }
             tmp.title = item.title;
             tmp.url = item.viewItemURL;
             tmp.image_url = item.galleryURL;
             final_response.push(tmp);
           });
+          console.log(final_response);
           response.send(final_response);
         }
       );
