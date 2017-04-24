@@ -99,7 +99,7 @@ app.get('/ebay', (request, response) => {
             if (tmp.hasPic) {
               tmp.image_url = item.galleryURL.substring(0, 4) + 's' + item.galleryURL.substring(4);
             } else {
-              tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008036/no_image_vke9lp.jpg"
+              tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png"
             }
             final_response.push(tmp);
           });
