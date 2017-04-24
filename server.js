@@ -95,8 +95,8 @@ app.get('/ebay', (request, response) => {
               tmp.price = tmp.price.slice(0, -3);
             }
             tmp.title = item.title;
-            tmp.url = item.viewItemURL.substring(0, 4) + 's' + item.viewItemURL(4);
-            tmp.image_url = item.galleryURL;
+            tmp.url = item.viewItemURL.substring(0, 4) + 's' + item.viewItemURL.substring(4);
+            tmp.image_url = item.galleryURL.substring(0, 4) + 's' + item.galleryURL.substring(4);
             final_response.push(tmp);
           });
           response.send(final_response);
