@@ -126,7 +126,7 @@ app.get('/amazon', (request, response) => {
       tmp.location = '';
       if (typeof item.ItemAttributes[0].ListPrice === 'undefined') { tmp.price = item.ItemAttributes[0].ListPrice; }
       else { tmp.price = item.ItemAttributes[0].ListPrice[0].FormattedPrice[0];}
-      if (typeop tmp.price === "undefined") {tmp.price = "-"}
+      if (typeof tmp.price === "undefined") {tmp.price = "-"}
       tmp.title = item.ItemAttributes[0].ProductGroup[0] + ': ' + item.ItemAttributes[0].Title[0];
       tmp.url = item.DetailPageURL[0];
       tmp.image_url = item.LargeImage[0].URL[0];
