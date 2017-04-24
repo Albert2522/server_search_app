@@ -112,7 +112,6 @@ app.get('/ebay', (request, response) => {
 app.get('/amazon', (request, response) => {
   let search = request.query.search;
   if (typeof search === 'undefined') { search = 'mustang'; }
-  console.log(search);
   let final_response = [ ];
   amazon_client.itemSearch({
     keywords: search,
@@ -122,7 +121,7 @@ app.get('/amazon', (request, response) => {
       let tmp = {};
       tmp.category = item.ItemAttributes[0].ProductTypeName[0];
       tmp.date = '';
-      tmp.hasPic = item.LargeImage[0].URL[0] ? true : false;
+      tmp.hasPic = item.LargeImage ? true : false;
       tmp.pid = item.ASIN[0];
       tmp.location = '';
       if (typeof item.ItemAttributes[0].ListPrice === 'undefined') { tmp.price = item.ItemAttributes[0].ListPrice; }
@@ -130,7 +129,11 @@ app.get('/amazon', (request, response) => {
       if (typeof tmp.price === "undefined") {tmp.price = "No price"}
       tmp.title = item.ItemAttributes[0].ProductGroup[0] + ': ' + item.ItemAttributes[0].Title[0];
       tmp.url = item.DetailPageURL[0];
-      tmp.image_url = item.LargeImage[0].URL[0];
+      if (tmp.hasPic) {
+        tmp.image_url = item.LargeImage[0].URL[0];
+      } else {
+        tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png"
+      }
       final_response.push(tmp);
     });
     response.send(final_response);
