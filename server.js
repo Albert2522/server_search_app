@@ -96,7 +96,7 @@ app.get('/ebay', (request, response) => {
             }
             tmp.title = item.title;
             tmp.url = item.viewItemURL.substring(0, 4) + 's' + item.viewItemURL.substring(4);
-            if (tmp.hasPic && tmp.image_url != 'http://thumbs1.ebaystatic.com/pict/04040_0.jpg') {
+            if (tmp.hasPic && item.galleryURL != 'http://thumbs1.ebaystatic.com/pict/04040_0.jpg') {
               tmp.image_url = item.galleryURL.substring(0, 4) + 's' + item.galleryURL.substring(4);
             } else {
               tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png"
