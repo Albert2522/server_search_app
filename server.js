@@ -23,7 +23,7 @@ const sendResponseCraigs = (response, listings) => {
     let tmp = listing;
     imgrab(listing.url, url => {
       if (listing.hasPic) {
-        if (typeof url === "undefined") { tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png"; }
+        if (typeof url[0] === "undefined") { tmp.hasPic = false; tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png"; }
         else { tmp.image_url = url[0]; }
       } else {
         tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png";
