@@ -25,7 +25,7 @@ const sendResponseCraigs = (response, listings) => {
       if (listing.hasPic) {
         tmp.image_url = url[0];
       } else {
-        tmp.image_url = '';
+        tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008173/no_image_search_wncg0a.png";
       }
       final_response.push(tmp);
       if (final_response.length == listings.length) {
