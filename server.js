@@ -18,6 +18,10 @@ const amazon_client = amazon.createClient({
 
 
 const sendResponseCraigs = (response, listings) => {
+  if (listings.length === 0) {
+    response.send(listings);
+    return;
+  }
   let final_response = [ ];
   listings.map(listing => {
     let tmp = listing;
@@ -81,7 +85,10 @@ app.get('/ebay', (request, response) => {
         },
         // gets all the items together in a merged array
         function itemsCallback(error, itemsResponse) {
-          if (error) throw error;
+          if (error || itemsResponse.searchResult.$.count == 0) {
+            response.send([]);
+            return;
+          }
           var items = itemsResponse.searchResult.item;
           let final_response = [ ];
           items.map( item => {
@@ -140,6 +147,7 @@ app.get('/amazon', (request, response) => {
   }).catch(function(err){
     console.log('problem');
     console.log(util.inspect(err, false, null));
+    response.send([]);
   });
 });
 
