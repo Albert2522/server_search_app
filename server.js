@@ -98,6 +98,8 @@ app.get('/ebay', (request, response) => {
             tmp.url = item.viewItemURL.substring(0, 4) + 's' + item.viewItemURL.substring(4);
             if (tmp.hasPic) {
               tmp.image_url = item.galleryURL.substring(0, 4) + 's' + item.galleryURL.substring(4);
+            } else {
+              tmp.image_url = "https://res.cloudinary.com/dd40qyh43/image/upload/v1493008036/no_image_vke9lp.jpg"
             }
             final_response.push(tmp);
           });
