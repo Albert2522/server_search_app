@@ -87,11 +87,10 @@ app.get('/ebay', (request, response) => {
             let tmp = {};
             tmp.category = item.primaryCategory.categoryName;
             tmp.date = item.listingInfo.endTime;
-            tmp.hasPick = item.galleryURL ? true : false;
+            tmp.hasPic = item.galleryURL ? true : false;
             tmp.pid = item.itemId;
             tmp.location = item.location;
             tmp.price = '$' + item.sellingStatus.currentPrice.amount;
-            console.log(typeof tmp.price);
             if (tmp.price.slice(-3) == '.00') {
               tmp.price = tmp.price.slice(0, -3);
             }
@@ -100,7 +99,6 @@ app.get('/ebay', (request, response) => {
             tmp.image_url = item.galleryURL;
             final_response.push(tmp);
           });
-          console.log(final_response);
           response.send(final_response);
         }
       );
@@ -119,7 +117,7 @@ app.get('/amazon', (request, response) => {
       let tmp = {};
       tmp.category = item.ItemAttributes[0].ProductTypeName[0];
       tmp.date = '';
-      tmp.hasPick = item.LargeImage[0].URL[0] ? true : false;
+      tmp.hasPic = item.LargeImage[0].URL[0] ? true : false;
       tmp.pid = item.ASIN[0];
       tmp.location = '';
       if (typeof item.ItemAttributes[0].ListPrice === 'undefined') { tmp.price = item.ItemAttributes[0].ListPrice; }
